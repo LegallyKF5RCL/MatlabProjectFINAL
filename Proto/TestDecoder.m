@@ -38,7 +38,7 @@ FinalWave = Sinusoid1 + Sinusoid2;
 
 
 AWGN_FinalWave1 = awgn(FinalWave, 40);
-AWGN_FinalWave2 = awgn(FinalWave, -20);
+AWGN_FinalWave2 = awgn(FinalWave, -19);
 
 %plot(X, AWGN_FinalWave2);
 %figure;
