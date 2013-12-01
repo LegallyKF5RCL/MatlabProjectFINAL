@@ -12,26 +12,60 @@ close all;
 
 %initialize
 Wav = 2;
-Samples = 8000;
+Samples = 80000;
 Amp = 1;
-Fqs = [697, 1209];
-Time = .020;
+Fqs = [697 770 852 941 1209 1336 1477 1633];
+Time = .02;
 SampTime = Time * Samples;
 
 
 %make matricies
-Sinusoids = zeros(Wav, SampTime);
-FinalWave = zeros(1, SampTime);
+%Sinusoids = zeros(Wav, SampTime);
+Sinusoid1 = zeros(1, SampTime);
+Sinusoid2 = zeros(1, SampTime);
+%FinalWave = zeros(1, SampTime);
 X = linspace(0, Time, SampTime);
 
-for n = 1:Wav
-    for i = 1:SampTime
-        Sinusoids(n,i) = sin(2 * pi * Fqs(n) * X(i));
-    end
+
+for i = 1:SampTime
+    Sinusoid1(1,i) = sin(2 * pi * 697 * X(i));
+end
+for i = 1:SampTime
+    Sinusoid2(1,i) = sin(2 * pi * 1209 * X(i));
 end
 
-for j = 1:Wav
-    FinalWave = FinalWave + Sinusoids(j, 1:SampTime);
-end
+FinalWave = Sinusoid1 + Sinusoid2;
 
-plot(X, FinalWave);
+
+AWGN_FinalWave1 = awgn(FinalWave, 40);
+AWGN_FinalWave2 = awgn(FinalWave, -20);
+
+%plot(X, AWGN_FinalWave2);
+%figure;
+
+FreqIndecies = round(Fqs / Samples * SampTime + 1);
+%FreqIndecies = round(FreqIndecies * Samples / SampTime);
+
+%FrewIndecies = Fqs + 1;
+
+GoGoGoertzel = goertzel(FinalWave, FreqIndecies);
+stem(Fqs, abs(GoGoGoertzel));
+figure;
+
+
+GoGoGoertzel = goertzel(AWGN_FinalWave1, FreqIndecies);
+stem(Fqs, abs(GoGoGoertzel));
+figure;
+
+GoGoGoertzel = goertzel(AWGN_FinalWave2, FreqIndecies);
+stem(Fqs, abs(GoGoGoertzel));
+
+
+
+
+
+
+
+
+
+
