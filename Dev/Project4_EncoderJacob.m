@@ -32,14 +32,14 @@ noise = NoiseV*rand(1,Fs*TotalLen+delayTime);
 
 
 %%% assigning the values for the duel tone 
-Ftop = [697,770,852,941];
-Fbot = [1209,1336,1477,1633];
+Frow = [697,770,852,941];
+Fcol = [1209,1336,1477,1633];
 f = [];
 %%%% making a matrix with the frequencies so each colum has 
 %%%% two frequencies.
 for i = 1:4;
     for w = 1:4;
-        f = [ f [Ftop(i);Fbot(w)] ];
+        f = [ f [Frow(i);Fcol(w)] ];
         
     end
 end
@@ -95,6 +95,6 @@ for q = 1:StringLen                     %for each row
     end
 end
 
-Y= reshape(Y',1,Fs*TotalLen);
+Signal= reshape(Y',1,Fs*TotalLen);
 %  Y=cat(2,delay,Y);
 %  Y=(Y+noise);
