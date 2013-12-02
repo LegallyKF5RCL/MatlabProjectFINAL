@@ -46,14 +46,24 @@ for i = 1:4;
 end
 
 
+%TONES = zeros(Fs,size(f,2));
+
 
 %%%% making a matrix of each duel tone freqency in their own row
+% for toneChoice = 1:16
+%     TONES(:,toneChoice) = sum(cos(f(:,toneChoice)*2*pi*t))';
+% end
+% Y = zeros(TotalLen,Fs);
+%TONES = TONES';
 
 for iii = 1:16
     for jjj = 1:Fs
         TONES(iii,1:jjj) = cos(2 * pi * f(1,iii) * t(1,1:jjj)) + cos(2 * pi * f(2,iii) * t(1,1:jjj));   
     end
 end
+
+%TONES = TONES';
+
 
 
 
@@ -95,11 +105,11 @@ for q = 1:StringLen                     %for each row
         end
     end
 end
-% reshapes the matrix into one long array 
+
 Y = reshape(Y',1,Fs*TotalLen);
-Y=cat(2,delay,Y);  % adds the delay to the beginning
-Y=(Y+noise);       % adds the noise into the signal
-Signal = Y;        % the signal that is passed
+Y=cat(2,delay,Y);
+Y=(Y+noise);
+Signal = Y;
 
 plot(Signal);
 %figure;
