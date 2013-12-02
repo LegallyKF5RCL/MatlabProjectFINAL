@@ -6,7 +6,7 @@ clc
 
 
 %Data = load('EncodedMessage.txt'); %load message
-Data = Y;
+Data = Signal;
 
 %information needed for decoding
 

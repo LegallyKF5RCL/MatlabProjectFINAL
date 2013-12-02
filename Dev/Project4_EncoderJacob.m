@@ -11,8 +11,8 @@ Message = input('Input Message here: ', 's');
 Freq = 8000;
 BitTime = .02;
 Fs= Freq*BitTime;
-t = (0:Fs-1)/Fs;
-
+%t = (0:Fs-1)/Fs;
+t = linspace(0,BitTime, Fs);
 
 %%%% changing from decimal to hex
 %%%% and finding the deminsions 
@@ -45,7 +45,7 @@ for i = 1:4;
 end
 
 
-TONES = zeros(Fs,size(f,2));
+%TONES = zeros(Fs,size(f,2));
 
 
 %%%% making a matrix of each duel tone freqency in their own row
@@ -53,7 +53,13 @@ for toneChoice = 1:16
     TONES(:,toneChoice) = sum(cos(f(:,toneChoice)*2*pi*t))';
 end
 Y = zeros(TotalLen,Fs);
-TONES = TONES';
+%TONES = TONES';
+
+% for iii = 1:16
+%     TONES(iii,:) = cos(2 * pi * f(1,iii) * t(1,:)) + cos(2 * pi * f(2,iii) * t(1,:));   
+% end
+
+%TONES = TONES';
 
 
 %%%% assignes a cosine wave for each character of the HexCharacters
@@ -95,6 +101,6 @@ for q = 1:StringLen                     %for each row
     end
 end
 
-Signal= reshape(Y',1,Fs*TotalLen);
+%Signal= reshape(Y',1,Fs*TotalLen);
 %  Y=cat(2,delay,Y);
 %  Y=(Y+noise);
