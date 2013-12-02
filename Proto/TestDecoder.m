@@ -12,7 +12,7 @@ close all;
 
 %initialize
 Wav = 2;
-Samples = 80000;
+Samples = 8000;
 Amp = 1;
 Fqs = [697 770 852 941 1209 1336 1477 1633];
 Time = .02;
@@ -38,10 +38,12 @@ FinalWave = Sinusoid1 + Sinusoid2;
 
 
 AWGN_FinalWave1 = awgn(FinalWave, 40);
-AWGN_FinalWave2 = awgn(FinalWave, -19);
+AWGN_FinalWave2 = awgn(FinalWave, 0);
 
-%plot(X, AWGN_FinalWave2);
-%figure;
+plot(X, FinalWave);
+figure;
+plot(X, AWGN_FinalWave2);
+figure;
 
 FreqIndecies = round(Fqs / Samples * SampTime + 1);
 %FreqIndecies = round(FreqIndecies * Samples / SampTime);
