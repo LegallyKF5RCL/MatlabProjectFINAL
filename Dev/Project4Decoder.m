@@ -1,10 +1,12 @@
-clear all
+
+
+%clear all
 close all
 clc
 
 
 %Data = load('EncodedMessage.txt'); %load message
-Data = 1:640;
+Data = Y;
 
 %information needed for decoding
 
