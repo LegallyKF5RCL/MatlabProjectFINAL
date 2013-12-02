@@ -44,7 +44,7 @@ RowCounter = 1;
 
 %find when the signal starts
 for i = 1:TotalLen
-    if Data(1, i) > 1
+    if Data(1, i) > 1.6
         PositionCounter = i;
         DelayPoints = i;
         break
@@ -52,9 +52,9 @@ for i = 1:TotalLen
 end
 
 %make data readable
-for ii = 1:TotalLen
+for ii = 1:(TotalLen - DelayPoints)
     
-    OrganizedData(RowCounter, ArbCounter) = Data(1, ii);
+    OrganizedData(RowCounter, ArbCounter) = Data(1, ii + DelayPoints);
     ArbCounter = ArbCounter + 1;
     if mod(ArbCounter - 1, 160) == 0
         ArbCounter = 1;
@@ -86,11 +86,12 @@ for h = 1:SizeOrgRow
 end
 
 Final = reshape(F,2,h/2);
+Final = Final';
 HexTwoDec = hex2dec(Final);
 Print = char(HexTwoDec);
 
 disp('~~~~~~~');
-disp(Print);
+disp(Print');
 disp('~~~~~~~');
 
 

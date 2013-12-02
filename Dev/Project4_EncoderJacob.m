@@ -5,7 +5,8 @@ close all;
 
 %$%$% asking for the input 
 Message = input('Input Message here: ', 's');
-
+NoiseLevel = input('Input signal to noise ratio in dB: ');
+UserDelay = input('Input delay time: ');
 
 %%$%$% defining frequency sample and time
 Freq = 8000;
@@ -24,8 +25,8 @@ TotalLen = StringLen * CharLen;
 
 
 %%%% variables for delay and noise introduced into the signal%%%$$$%
-x=20;
-delayTime= Fs;
+x=NoiseLevel;
+delayTime= 8 * UserDelay;
 delay = zeros(1,delayTime);
 NoiseV = 1/(10^(x/20));
 noise = NoiseV*rand(1,Fs*TotalLen+delayTime);
@@ -49,29 +50,33 @@ end
 
 
 %%%% making a matrix of each duel tone freqency in their own row
-for toneChoice = 1:16
-    TONES(:,toneChoice) = sum(cos(f(:,toneChoice)*2*pi*t))';
-end
-Y = zeros(TotalLen,Fs);
-%TONES = TONES';
-
-% for iii = 1:16
-%     TONES(iii,:) = cos(2 * pi * f(1,iii) * t(1,:)) + cos(2 * pi * f(2,iii) * t(1,:));   
+% for toneChoice = 1:16
+%     TONES(:,toneChoice) = sum(cos(f(:,toneChoice)*2*pi*t))';
 % end
+% Y = zeros(TotalLen,Fs);
+%TONES = TONES';
+
+for iii = 1:16
+    for jjj = 1:160
+        TONES(iii,1:jjj) = cos(2 * pi * f(1,iii) * t(1,1:jjj)) + cos(2 * pi * f(2,iii) * t(1,1:jjj));   
+    end
+end
 
 %TONES = TONES';
+
+
 
 
 %%%% assignes a cosine wave for each character of the HexCharacters
 for q = 1:StringLen                     %for each row
     for h = 1:CharLen                   %for each value in the row
-        if HexCharacters(q,h) == '0';
+        if HexCharacters(q,h) == '1';
             Y(((q - 1) * CharLen + h),:) = TONES(1,:);
-        elseif HexCharacters(q,h) == '1';
-            Y(((q - 1) * CharLen + h),:) = TONES(2,:);
         elseif HexCharacters(q,h) == '2';
-            Y(((q - 1) * CharLen + h),:) = TONES(3,:);            
+            Y(((q - 1) * CharLen + h),:) = TONES(2,:);
         elseif HexCharacters(q,h) == '3';
+            Y(((q - 1) * CharLen + h),:) = TONES(3,:);            
+        elseif HexCharacters(q,h) == 'A';
             Y(((q - 1) * CharLen + h),:) = TONES(4,:);
         elseif HexCharacters(q,h) == '4';
             Y(((q - 1) * CharLen + h),:) = TONES(5,:);
@@ -79,19 +84,19 @@ for q = 1:StringLen                     %for each row
             Y(((q - 1) * CharLen + h),:) = TONES(6,:);
         elseif HexCharacters(q,h) == '6';
             Y(((q - 1) * CharLen + h),:) = TONES(7,:);
-        elseif HexCharacters(q,h) == '7';
-            Y(((q - 1) * CharLen + h),:) = TONES(8,:);        
-        elseif HexCharacters(q,h) == '8';
-            Y(((q - 1) * CharLen + h),:) = TONES(9,:);
-        elseif HexCharacters(q,h) == '9';
-            Y(((q - 1) * CharLen + h),:) = TONES(10,:);
-        elseif HexCharacters(q,h) == 'A';
-            Y(((q - 1) * CharLen + h),:) = TONES(11,:);
         elseif HexCharacters(q,h) == 'B';
-            Y(((q - 1) * CharLen + h),:) = TONES(12,:);
+            Y(((q - 1) * CharLen + h),:) = TONES(8,:);        
+        elseif HexCharacters(q,h) == '7';
+            Y(((q - 1) * CharLen + h),:) = TONES(9,:);
+        elseif HexCharacters(q,h) == '8';
+            Y(((q - 1) * CharLen + h),:) = TONES(10,:);
+        elseif HexCharacters(q,h) == '9';
+            Y(((q - 1) * CharLen + h),:) = TONES(11,:);
         elseif HexCharacters(q,h) == 'C';
+            Y(((q - 1) * CharLen + h),:) = TONES(12,:);
+        elseif HexCharacters(q,h) == 'E';
             Y(((q - 1) * CharLen + h),:) = TONES(13,:);
-        elseif HexCharacters(q,h) == 'D';
+        elseif HexCharacters(q,h) == '0';
             Y(((q - 1) * CharLen + h),:) = TONES(14,:);
         elseif HexCharacters(q,h) == 'F'; 
             Y(((q - 1) * CharLen + h),:) = TONES(15,:);
@@ -101,6 +106,10 @@ for q = 1:StringLen                     %for each row
     end
 end
 
-%Signal= reshape(Y',1,Fs*TotalLen);
-%  Y=cat(2,delay,Y);
-%  Y=(Y+noise);
+Y = reshape(Y',1,Fs*TotalLen);
+Y=cat(2,delay,Y);
+Y=(Y+noise);
+Signal = Y;
+
+plot(Signal);
+%figure;

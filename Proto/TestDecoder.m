@@ -28,10 +28,10 @@ X = linspace(0, Time, SampTime);
 
 
 for i = 1:SampTime
-    Sinusoid1(1,i) = cos(2 * pi * 770 * X(i));
+    Sinusoid1(1,i) = cos(2 * pi * 697 * X(i));
 end
 for i = 1:SampTime
-    Sinusoid2(1,i) = cos(2 * pi * 1477 * X(i));
+    Sinusoid2(1,i) = cos(2 * pi * 1336 * X(i));
 end
 
 FinalWave = Sinusoid1 + Sinusoid2;
